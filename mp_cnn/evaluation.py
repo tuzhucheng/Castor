@@ -1,5 +1,6 @@
-from mp_cnn.evaluators.sick_evaluator import SICKEvaluator
 from mp_cnn.evaluators.msrvid_evaluator import MSRVIDEvaluator
+from mp_cnn.evaluators.sick_evaluator import SICKEvaluator
+from mp_cnn.evaluators.sts_evaluator import STSEvaluator
 from mp_cnn.evaluators.trecqa_evaluator import TRECQAEvaluator
 from mp_cnn.evaluators.wikiqa_evaluator import WikiQAEvaluator
 
@@ -9,8 +10,9 @@ class MPCNNEvaluatorFactory(object):
     Get the corresponding Evaluator class for a particular dataset.
     """
     evaluator_map = {
-        'sick': SICKEvaluator,
         'msrvid': MSRVIDEvaluator,
+        'sick': SICKEvaluator,
+        'sts': STSEvaluator,
         'trecqa': TRECQAEvaluator,
         'wikiqa': WikiQAEvaluator
     }

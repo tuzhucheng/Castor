@@ -3,8 +3,9 @@ import os
 import torch
 import torch.nn as nn
 
-from datasets.sick import SICK
 from datasets.msrvid import MSRVID
+from datasets.sick import SICK
+from datasets.sts import STS
 from datasets.trecqa import TRECQA
 from datasets.wikiqa import WikiQA
 
@@ -63,6 +64,13 @@ class MPCNNDatasetFactory(object):
             embedding = nn.Embedding(embedding_dim[0], embedding_dim[1])
             embedding.weight = nn.Parameter(WikiQA.TEXT_FIELD.vocab.vectors)
             return WikiQA, embedding, train_loader, test_loader, dev_loader
+        elif dataset_name == 'sts2015':
+            dataset_root = os.path.join(os.pardir, os.pardir, 'data', 'SemEval2015-STS/')
+            train_loader, dev_loader, test_loader = STS.iters(dataset_root, 2015, word_vectors_file, word_vectors_dir, batch_size, device=device, unk_init=UnknownWordVecCache.unk)
+            embedding_dim = STS.TEXT_FIELD.vocab.vectors.size()
+            embedding = nn.Embedding(embedding_dim[0], embedding_dim[1])
+            embedding.weight = nn.Parameter(STS.TEXT_FIELD.vocab.vectors)
+            return STS, embedding, train_loader, test_loader, dev_loader
         else:
             raise ValueError('{} is not a valid dataset.'.format(dataset_name))
 
