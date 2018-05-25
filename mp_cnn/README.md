@@ -44,7 +44,7 @@ python -m mp_cnn mpcnn.trecqa.model --dataset trecqa --epochs 5 --holistic-filte
 | Paper                            | 0.764  | 0.827  |
 | PyTorch using above config       | 0.777  | 0.821  |
 
-This are the TrecQA raw dataset results. The paper results are reported in [Noise-Contrastive Estimation for Answer Selection with Deep Neural Networks](https://dl.acm.org/citation.cfm?id=2983872).
+These are the TrecQA raw dataset results. The paper results are reported in [Noise-Contrastive Estimation for Answer Selection with Deep Neural Networks](https://dl.acm.org/citation.cfm?id=2983872).
 
 ## WikiQA Dataset
 
@@ -68,7 +68,8 @@ python -m mp_cnn --help
 
 ## Optional Dependencies
 
-To optionally visualize the learning curve during training, we make use of https://github.com/lanpa/tensorboard-pytorch to connect to [TensorBoard](https://github.com/tensorflow/tensorboard). These projects require TensorFlow as a dependency, so you need to install TensorFlow before running the commands below. After these are installed, just add `--tensorboard` when running the training commands and open TensorBoard in the browser.
+To optionally visualize the learning curve during training, we make use of https://github.com/lanpa/tensorboard-pytorch to connect to [TensorBoard](https://github.com/tensorflow/tensorboard).
+After these are installed, just add `--tensorboard` when running the training commands and open TensorBoard in the browser.
 
 ```sh
 pip install tensorboardX

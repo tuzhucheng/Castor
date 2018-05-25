@@ -62,7 +62,8 @@ You need to make sure the repository root is in your `PYTHONPATH` environment va
 
 ## Optional Dependencies
 
-To optionally visualize the learning curve during training, we make use of https://github.com/lanpa/tensorboard-pytorch to connect to [TensorBoard](https://github.com/tensorflow/tensorboard). These projects require TensorFlow as a dependency, so you need to install TensorFlow before running the commands below. After these are installed, just add `--tensorboard` when running `main.py` and open TensorBoard in the browser.
+To optionally visualize the learning curve during training, we make use of https://github.com/lanpa/tensorboard-pytorch to connect to [TensorBoard](https://github.com/tensorflow/tensorboard).
+After these are installed, just add `--tensorboard` when running the training commands and open TensorBoard in the browser.
 
 ```sh
 pip install tensorboardX
