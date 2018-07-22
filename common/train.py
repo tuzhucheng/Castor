@@ -26,7 +26,7 @@ class TrainerFactory(object):
     }
 
     @staticmethod
-    def get_trainer(dataset_name, model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator=None, nce=False):
+    def get_trainer(dataset_name, model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator=None, nce=False, device=None, use_elmo=False):
         if nce:
             trainer_map = TrainerFactory.trainer_map_nce
         else:
@@ -36,5 +36,5 @@ class TrainerFactory(object):
             raise ValueError('{} is not implemented.'.format(dataset_name))
 
         return trainer_map[dataset_name](
-            model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator
+            model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator, device, use_elmo
         )

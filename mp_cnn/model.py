@@ -222,6 +222,8 @@ class MPCNN(nn.Module):
             sent1, sent2 = self.concat_attention(sent1, sent2, word_to_doc_count, raw_sent1, raw_sent2)
 
         # Sentence modelling module
+        print(sent1.size())
+        print(sent2.size())
         sent1_block_a, sent1_block_b = self._get_blocks_for_sentence(sent1)
         sent2_block_a, sent2_block_b = self._get_blocks_for_sentence(sent2)
 

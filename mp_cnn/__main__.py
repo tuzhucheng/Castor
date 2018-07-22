@@ -29,9 +29,9 @@ def get_logger():
     return logger
 
 
-def evaluate_dataset(split_name, dataset_cls, model, embedding, loader, batch_size, device, keep_results=False):
+def evaluate_dataset(split_name, dataset_cls, model, embedding, loader, batch_size, device, keep_results=False, use_elmo=False):
     saved_model_evaluator = EvaluatorFactory.get_evaluator(dataset_cls, model, embedding, loader, batch_size, device,
-                                                           keep_results=keep_results)
+                                                           keep_results=keep_results, use_elmo=use_elmo)
     scores, metric_names = saved_model_evaluator.get_scores()
     logger.info('Evaluation metrics for {}'.format(split_name))
     logger.info('\t'.join([' '] + metric_names))
@@ -82,6 +82,8 @@ if __name__ == '__main__':
     parser.add_argument('--run-label', type=str, help='label to describe run')
     parser.add_argument('--keep-results', action='store_true',
                         help='store the output score and qrel files into disk for the test set')
+    parser.add_argument('--use-elmo', type=bool, default=False,
+                        help='use elmo for this task (default: false)')
 
     args = parser.parse_args()
 
@@ -119,11 +121,11 @@ if __name__ == '__main__':
         raise ValueError('optimizer not recognized: it should be either adam or sgd')
 
     train_evaluator = EvaluatorFactory.get_evaluator(dataset_cls, model, embedding, train_loader, args.batch_size,
-                                                     args.device)
+                                                     args.device, use_elmo=args.use_elmo)
     test_evaluator = EvaluatorFactory.get_evaluator(dataset_cls, model, embedding, test_loader, args.batch_size,
-                                                    args.device)
+                                                    args.device, use_elmo=args.use_elmo)
     dev_evaluator = EvaluatorFactory.get_evaluator(dataset_cls, model, embedding, dev_loader, args.batch_size,
-                                                   args.device)
+                                                   args.device, use_elmo=args.use_elmo)
 
     trainer_config = {
         'optimizer': optimizer,
@@ -136,7 +138,7 @@ if __name__ == '__main__':
         'run_label': args.run_label,
         'logger': logger
     }
-    trainer = TrainerFactory.get_trainer(args.dataset, model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator)
+    trainer = TrainerFactory.get_trainer(args.dataset, model, embedding, train_loader, trainer_config, train_evaluator, test_evaluator, dev_evaluator, device=args.device, use_elmo=args.use_elmo)
 
     if not args.skip_training:
         total_params = 0
@@ -153,5 +155,5 @@ if __name__ == '__main__':
 
     model.load_state_dict(state_dict)
     if dev_loader:
-        evaluate_dataset('dev', dataset_cls, model, embedding, dev_loader, args.batch_size, args.device)
-    evaluate_dataset('test', dataset_cls, model, embedding, test_loader, args.batch_size, args.device, args.keep_results)
+        evaluate_dataset('dev', dataset_cls, model, embedding, dev_loader, args.batch_size, args.device, use_elmo=args.use_elmo)
+    evaluate_dataset('test', dataset_cls, model, embedding, test_loader, args.batch_size, args.device, args.keep_results, use_elmo=args.use_elmo)

@@ -17,6 +17,7 @@ class SICKTrainer(Trainer):
             self.optimizer.zero_grad()
 
             # Select embedding
+            print (batch_idx)
             sent1, sent2 = self.get_sentence_embeddings(batch)
 
             output = self.model(sent1, sent2, batch.ext_feats, batch.dataset.word_to_doc_cnt, batch.sentence_1_raw, batch.sentence_2_raw)
