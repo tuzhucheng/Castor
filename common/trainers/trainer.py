@@ -64,7 +64,6 @@ class Trainer(object):
                 elmo_embeddings = self.elmo(character_ids)
                 for elmo_layer in elmo_embeddings['elmo_representations']:
                     sent_t = elmo_layer.transpose(1, 2)
-                    print(elmo_layer.size())
                     sent_t = sent_t.to(self.device)
                     min_size = min(sent_t.size()[2], sents[idx].size()[2])
                     sent_t = sent_t[:, :, :min_size]
@@ -73,7 +72,6 @@ class Trainer(object):
 
             sent1 = sents[0]
             sent2 = sents[1]
-            print()
 
         return sent1, sent2
 
