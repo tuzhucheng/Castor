@@ -82,7 +82,7 @@ if __name__ == '__main__':
     parser.add_argument('--run-label', type=str, help='label to describe run')
     parser.add_argument('--keep-results', action='store_true',
                         help='store the output score and qrel files into disk for the test set')
-    parser.add_argument('--use-elmo', type=bool, default=False,
+    parser.add_argument('--use-elmo', action='store_true', default=False,
                         help='use elmo for this task (default: false)')
 
     args = parser.parse_args()
@@ -94,6 +94,10 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
     if args.device != -1:
         torch.cuda.manual_seed(args.seed)
+
+    if args.use_elmo:
+        # TODO make this dependent on number of ELMo layers
+        args.word_vectors_dim += 1024
 
     logger = get_logger()
     logger.info(pprint.pformat(vars(args)))
